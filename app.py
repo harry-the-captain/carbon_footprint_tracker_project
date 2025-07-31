@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 import base64
 from functions import *
 
-st.set_page_config(layout="wide",page_title="Carbon Footprint Calculator", page_icon="./media/favicon.ico")
+st.set_page_config(layout="wide",page_title="Carbon Footprint Tracker", page_icon="./media/favicon.ico")
 
 def get_base64(bin_file):
     with open(bin_file, 'rb') as f:
@@ -55,7 +55,7 @@ def component():
     body_type = "underweight" if (calculation < 18.5) else \
                  "normal" if ((calculation >=18.5) and (calculation < 25 )) else \
                  "overweight" if ((calculation >= 25) and (calculation < 30)) else "obese"
-    sex = tab1.selectbox('Gender', ["female", "male"])
+    sex = tab1.selectbox('Gender', ["female", "male", "Other"])
     diet = tab1.selectbox('Diet', ['omnivore', 'pescatarian', 'vegetarian', 'vegan'], help="""
                                                                                               Omnivore: Eats both plants and animals.\n
                                                                                               Pescatarian: Consumes plants and seafood, but no other meat\n
@@ -136,8 +136,8 @@ prediction = round(np.exp(model.predict(ss.transform(sample_df))[0]))
 
 column1,column2 = tab1.columns(2)
 _,resultbutton,_ = tab5.columns([1,1,1])
-if resultbutton.button(" ", type = "secondary"):
-    tab_result.image(chart(model,ss, sample_df,prediction), use_column_width="auto")
+if resultbutton.button(" 🌍", type = "secondary"):
+    tab_result.image(chart(model,ss, sample_df,prediction), use_container_width="auto")
     click_element('tab-2')
 
 pop_button = """<button id = "button-17" class="button-17" role="button"> ❔ Did You Know</button>"""
@@ -159,9 +159,8 @@ if home.button("🏡"):
 _,resultmid,_ = result.columns([1,2,1])
 
 tree_count = round(prediction / 411.4)
-tab_result.markdown(f"""You owe nature <b>{tree_count}</b> tree{'s' if tree_count > 1 else ''} monthly. <br> {f"<a href='https://www.tema.org.tr/en/homepage' id = 'button-17' class='button-17' role='button'> 🌳 Proceed to offset 🌳</a>" if tree_count > 0 else ""}""",  unsafe_allow_html=True)
 
-if resultmid.button("  ", type="secondary"):
+if resultmid.button(" ✅"):
     click_element('tab-1')
 
 with open("./style/footer.html", "r", encoding="utf-8") as footer:

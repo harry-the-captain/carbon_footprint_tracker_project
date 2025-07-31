@@ -51,7 +51,7 @@ sample = {'Body Type': 2,
 
 def input_preprocessing(data):
     data["Body Type"] = data["Body Type"].map({'underweight':0, 'normal':1, 'overweight':2, 'obese':3})
-    data["Sex"] = data["Sex"].map({'female':0, 'male':1})
+    data["Sex"] = data["Sex"].map({'female':0, 'male':1, 'Other':2})
     data = pd.get_dummies(data, columns=["Diet","Heating Energy Source","Transport","Vehicle Type"], dtype=int)
     data["How Often Shower"] = data["How Often Shower"].map({'less frequently':0, 'daily':1, "twice a day":2, "more frequently":3})
     data["Social Activity"] = data["Social Activity"].map({'never':0, 'sometimes':1, "often":2})
